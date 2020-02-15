@@ -13,4 +13,7 @@ private String fxmlName;
         this.viewFactory = viewFactory;
         this.fxmlName = fxmlName;
     }
+    public String getFxmlFile(){
+    return fxmlName;
+    }
 }
