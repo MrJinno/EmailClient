@@ -1,4 +1,4 @@
-package com.mrJinno.view;
+package com.mrJinno.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
