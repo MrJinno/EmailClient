@@ -7,7 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginWindowController extends BaseController {
+public class LoginWindowController extends Controller {
+    public LoginWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
+        super(emailManager, viewFactory, fxmlName);
+    }
+
     @FXML
     private TextField emailAdressField;
 
@@ -17,12 +21,9 @@ public class LoginWindowController extends BaseController {
     @FXML
     private Label errorLabel;
 
-    public LoginWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
-        super(emailManager, viewFactory, fxmlName);
-    }
-
     @FXML
     void loginButtonAction() {
+        viewFactory.showMainWindow();
         System.out.println("Click!");
     }
 }
