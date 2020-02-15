@@ -13,5 +13,6 @@ public class Launcher extends Application {
     public void start(Stage mainStage) throws Exception {
         viewFactory=new ViewFactory(new EmailManager());
         viewFactory.showLoginWindow();
+        viewFactory.updateStyles();
     }
 }

@@ -19,7 +19,10 @@ public class MainWindowController extends Controller {
 
         @FXML
         private WebView emailWebView;
-
+        @FXML
+        void addAccountAction() {
+          viewFactory.showLoginWindow();
+        }
         @FXML
         void optionsAction() {
         viewFactory.showOptionsWindow();

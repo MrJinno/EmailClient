@@ -18,7 +18,7 @@ public class ViewFactory {
     private FXMLLoader fxmlLoader;
     private Stage stage= new Stage(), tempStage;
     private ArrayList<Stage> activeStages;
-    private ColorTheme colorTheme= ColorTheme.DEFAULT;
+    private ColorTheme colorTheme= ColorTheme.DARK;
 
     private FontSize fontSize=FontSize.MEDIUM;
 
@@ -29,7 +29,7 @@ public class ViewFactory {
 
     public void showLoginWindow(){
         System.out.println("Show Login Window Called");
-        initializeScene(new LoginWindowController(emailManager, this, "LoginWindow.fxml"),false);
+        initializeScene(new LoginWindowController(emailManager, this, "LoginWindow.fxml"),true);
     }
 
     public void showMainWindow(){
@@ -46,12 +46,13 @@ public class ViewFactory {
         Parent parent= manageFxmlObject(controller);
         if (createNewWindow){
             tempStage=new Stage();
-            activeStages.add(tempStage);
         setScene(tempStage, parent);
+            activeStages.add(tempStage);
         }else {
             setScene( stage, parent);
-            activeStages.add(tempStage);
+            activeStages.add(stage);
         }
+        updateStyles();
     }
 
     public Parent manageFxmlObject(Controller controller){
@@ -77,7 +78,8 @@ public class ViewFactory {
         for (Stage stage: activeStages){
             Scene scene=stage.getScene();
             scene.getStylesheets().clear();
-            scene.getStylesheets().add(getClass().getResource("").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(colorTheme)).toExternalForm());
+            scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(fontSize)).toExternalForm());
         }
     }
 
