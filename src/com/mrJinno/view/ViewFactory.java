@@ -15,8 +15,7 @@ import java.util.ArrayList;
 
 public class ViewFactory {
     private EmailManager emailManager;
-    private FXMLLoader fxmlLoader;
-    private Stage stage= new Stage(), tempStage;
+    private Stage stage= new Stage();
     private ArrayList<Stage> activeStages;
     private ColorTheme colorTheme= ColorTheme.DARK;
 
@@ -43,22 +42,26 @@ public class ViewFactory {
     }
 
     public void initializeScene(Controller controller, boolean createNewWindow){
-        Parent parent= manageFxmlObject(controller);
+        FXMLLoader fxmlLoader= initializeFxmlFile(controller);
+        Parent parent=getFxmlRoot(fxmlLoader);
+        createScene(parent, createNewWindow);
+        updateStyles();
+    }
+    public void createScene(Parent parent, boolean createNewWindow){
         if (createNewWindow){
-            tempStage=new Stage();
-        setScene(tempStage, parent);
+            Stage tempStage = new Stage();
+            setScene(tempStage, parent);
             activeStages.add(tempStage);
         }else {
             setScene( stage, parent);
             activeStages.add(stage);
         }
-        updateStyles();
     }
 
-    public Parent manageFxmlObject(Controller controller){
-        fxmlLoader= new FXMLLoader(getClass().getResource(controller.getFxmlFile()));
-        fxmlLoader.setController(controller);
-       return getFxmlRoot(fxmlLoader);
+    public FXMLLoader initializeFxmlFile(Controller controller){
+       FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource(controller.getFxmlFile()));
+       fxmlLoader.setController(controller);
+        return fxmlLoader;
     }
 
     public Parent getFxmlRoot(FXMLLoader fxmlLoader){
