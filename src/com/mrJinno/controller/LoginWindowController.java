@@ -63,9 +63,9 @@ public class LoginWindowController extends Controller implements Initializable {
                     switchStageToMainWindow();
                     break;
                 case FAILED_BY_UNEXPECTED_ERROR:
-                    errorLabel.setText("unexpected error!!!");
+                    errorLabel.setText("unexpected error!!!"); break;
                 case FAILED_BY_CREDENTIALS:
-                    errorLabel.setText("Invalid credentials!");
+                    errorLabel.setText("Invalid credentials!"); break;
 
             }
         });
