@@ -59,6 +59,7 @@ public class LoginWindowController extends Controller implements Initializable {
             EmailLoginResult emailLoginResult = loginService.getValue();
             switch (emailLoginResult){
                 case SUCCESS:
+                    emailManager.addEmailAccount(emailAccount);
                     switchStageToMainWindow();
                     break;
                 case FAILED_BY_UNEXPECTED_ERROR:
