@@ -41,14 +41,14 @@ public class ViewFactory {
         initializeScene(new OptionsWindowController(emailManager, this, "OptionsWindow.fxml"), true);
     }
 
-    public void initializeScene(Controller controller, boolean createNewWindow){
+    public void initializeScene(Controller controller, boolean isCreatingNewWindow){
         FXMLLoader fxmlLoader= initializeFxmlFile(controller);
         Parent parent=getFxmlRoot(fxmlLoader);
-        createScene(parent, createNewWindow);
+        createScene(parent, isCreatingNewWindow);
         updateStyles();
     }
-    public void createScene(Parent parent, boolean createNewWindow){
-        if (createNewWindow){
+    public void createScene(Parent parent, boolean isCreatingNewWindow){
+        if (isCreatingNewWindow){
             Stage tempStage = new Stage();
             setScene(tempStage, parent);
             activeStages.add(tempStage);

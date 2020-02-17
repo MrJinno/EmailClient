@@ -4,16 +4,17 @@ import com.mrJinno.EmailManager;
 import com.mrJinno.view.ViewFactory;
 
 public abstract class Controller {
-private EmailManager emailManager;
-protected ViewFactory viewFactory;
-private String fxmlName;
+    protected EmailManager emailManager;
+    protected ViewFactory viewFactory;
+    private String fxmlName;
 
     public Controller(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         this.emailManager = emailManager;
         this.viewFactory = viewFactory;
         this.fxmlName = fxmlName;
     }
-    public String getFxmlFile(){
-    return fxmlName;
+
+    public String getFxmlFile() {
+        return fxmlName;
     }
 }
