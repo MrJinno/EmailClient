@@ -28,7 +28,7 @@ public class ViewFactory {
 
     public void showLoginWindow(){
         System.out.println("Show Login Window Called");
-        LoginWindowController loginWindowController= new LoginWindowController(emailManager, this, "LoginWindow.fxml";
+        LoginWindowController loginWindowController= new LoginWindowController(emailManager, this, "LoginWindow.fxml");
         initializeScene(loginWindowController,true);
     }
 
