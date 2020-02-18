@@ -35,11 +35,11 @@
       <TreeView fx:id="emailsTreeView" layoutY="25.0" prefHeight="580.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
       <TableView fx:id="emailsTableView" layoutX="251.0" layoutY="25.0" prefHeight="189.0" prefWidth="764.0" AnchorPane.leftAnchor="251.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
         <columns>
-          <TableColumn prefWidth="87.0" text="Sender" />
-          <TableColumn prefWidth="144.0" text="Subject" />
-            <TableColumn prefWidth="222.0" text="Recipient" />
-            <TableColumn prefWidth="139.0" text="Size" />
-            <TableColumn prefWidth="170.0" text="Date" />
+          <TableColumn fx:id="senderColumn" prefWidth="87.0" text="Sender" />
+          <TableColumn fx:id="subjectColumn" prefWidth="144.0" text="Subject" />
+            <TableColumn fx:id="recipientColumn" prefWidth="222.0" text="Recipient" />
+            <TableColumn fx:id="sizeColumn" prefWidth="139.0" text="Size" />
+            <TableColumn fx:id="dateColumn" prefWidth="170.0" text="Date" />
         </columns>
       </TableView>
       <WebView fx:id="emailWebView" layoutX="251.0" layoutY="214.0" prefHeight="391.0" prefWidth="764.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="251.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="213.0" />
