@@ -28,17 +28,20 @@ public class ViewFactory {
 
     public void showLoginWindow(){
         System.out.println("Show Login Window Called");
-        initializeScene(new LoginWindowController(emailManager, this, "LoginWindow.fxml"),true);
+        LoginWindowController loginWindowController= new LoginWindowController(emailManager, this, "LoginWindow.fxml";
+        initializeScene(loginWindowController,true);
     }
 
     public void showMainWindow(){
         System.out.println("Show Main Window Called");
-        initializeScene(new MainWindowController(emailManager, this, "MainWindow.fxml"), false);
+        MainWindowController mainWindowController=new MainWindowController(emailManager, this, "MainWindow.fxml");
+        initializeScene(mainWindowController, false);
     }
 
     public void showOptionsWindow(){
         System.out.println("Options window called");
-        initializeScene(new OptionsWindowController(emailManager, this, "OptionsWindow.fxml"), true);
+        OptionsWindowController optionsWindowController=new OptionsWindowController(emailManager, this, "OptionsWindow.fxml");
+        initializeScene(optionsWindowController, true);
     }
 
     public void initializeScene(Controller controller, boolean isCreatingNewWindow){
