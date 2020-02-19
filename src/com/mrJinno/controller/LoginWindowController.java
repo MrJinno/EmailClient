@@ -4,8 +4,6 @@ import com.mrJinno.EmailManager;
 import com.mrJinno.controller.services.LoginService;
 import com.mrJinno.model.EmailAccount;
 import com.mrJinno.view.ViewFactory;
-import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -13,10 +11,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import org.w3c.dom.ls.LSOutput;
 
 import java.net.URL;
-import java.util.EventListener;
 import java.util.ResourceBundle;
 
 public class LoginWindowController extends Controller implements Initializable{
@@ -31,16 +27,13 @@ public class LoginWindowController extends Controller implements Initializable{
     }
 
     private void setUpKeyEventHandler() {
-        passwordField.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()){
-                    case ENTER:
-                        loginButtonAction();
-                        break;
-                    case ESCAPE:
-                        System.exit(0);
-                }
+        passwordField.addEventHandler(KeyEvent.KEY_RELEASED, e -> {
+            switch (e.getCode()) {
+                case ENTER:
+                    loginButtonAction();
+                    break;
+                case ESCAPE:
+                    System.exit(0);
             }
         });
     }

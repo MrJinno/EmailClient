@@ -19,7 +19,7 @@ public class ViewFactory {
     private ArrayList<Stage> activeStages;
     private ColorTheme colorTheme= ColorTheme.DEFAULT;
 
-    private FontSize fontSize=FontSize.MEDIUM;
+    private FontSize fontSize=FontSize.SMALL;
 
     public ViewFactory(EmailManager emailManager) {
         activeStages=new ArrayList<>();
@@ -52,12 +52,9 @@ public class ViewFactory {
     }
     public void createScene(Parent parent, boolean isCreatingNewWindow){
         if (isCreatingNewWindow){
-            Stage tempStage = new Stage();
-            setScene(tempStage, parent);
-            activeStages.add(tempStage);
+            setScene(new Stage(), parent);
         }else {
             setScene( stage, parent);
-            activeStages.add(stage);
         }
     }
 
@@ -93,6 +90,7 @@ public class ViewFactory {
         Scene scene = new Scene(parent);
         stage.setScene(scene);
         stage.show();
+        activeStages.add(stage);
     }
 
     public ColorTheme getColorTheme() {
