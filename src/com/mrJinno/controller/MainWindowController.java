@@ -2,6 +2,7 @@ package com.mrJinno.controller;
 
 import com.mrJinno.EmailManager;
 import com.mrJinno.model.EmailMessage;
+import com.mrJinno.model.EmailTreeItem;
 import com.mrJinno.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +25,7 @@ public class MainWindowController extends Controller implements Initializable {
         private TreeView<String> emailsTreeView;
 
         @FXML
-        private TableView<?> emailsTableView;
+        private TableView<EmailMessage> emailsTableView;
 
         @FXML
         private WebView emailWebView;
@@ -55,12 +56,26 @@ public class MainWindowController extends Controller implements Initializable {
         public void initialize(URL location, ResourceBundle resources) {
              setUpEmailsTreeView();
              setUpEmailTableColumns();
+             setUpSelectedFolder();
                      
 
         }
 
+        private void setUpSelectedFolder() {
+                emailsTreeView.setOnMouseClicked(e -> {
+                        EmailTreeItem<String> item=(EmailTreeItem<String>)emailsTreeView.getSelectionModel().getSelectedItem();
+                        if (item!=null){
+                                emailsTableView.setItems(item.getEmailMessages());
+                        }
+                });
+        }
+
         private void setUpEmailTableColumns() {
                 senderColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("sender"));
+                subjectColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("subject"));
+                recipientColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
+                sizeColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Integer>("size"));
+                dateColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
         }
 
         private void setUpEmailsTreeView() {

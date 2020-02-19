@@ -9,4 +9,5 @@ module EmailClient {
     opens com.mrJinno;
     opens com.mrJinno.view;
     opens com.mrJinno.controller;
+    opens com.mrJinno.model;
 }
