@@ -62,7 +62,7 @@ public class LoginWindowController extends Controller implements Initializable{
     }
 
     private boolean fieldsAreValid() {
-        if (emailAdressField.getText().isEmpty()) {
+        if (emailAddressField.getText().isEmpty()) {
             errorLabel.setText("Please Insert Email");
             return false;
         }
@@ -74,7 +74,7 @@ public class LoginWindowController extends Controller implements Initializable{
     }
 
     private void initializeLoginService() {
-        EmailAccount emailAccount= new EmailAccount(emailAdressField.getText(), passwordField.getText());
+        EmailAccount emailAccount= new EmailAccount(emailAddressField.getText(), passwordField.getText());
         LoginService loginService= new LoginService(emailAccount, emailManager);
         loginService.start();
         loginService.setOnSucceeded(event -> {
