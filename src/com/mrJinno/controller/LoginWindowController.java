@@ -9,12 +9,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.EventListener;
 import java.util.ResourceBundle;
 
-public class LoginWindowController extends Controller implements Initializable {
+public class LoginWindowController extends Controller implements Initializable{
     public LoginWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         super(emailManager, viewFactory, fxmlName);
     }

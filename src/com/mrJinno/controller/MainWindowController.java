@@ -7,10 +7,12 @@ import com.mrJinno.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.Date;
@@ -43,28 +45,32 @@ public class MainWindowController extends Controller implements Initializable {
 
         @FXML
         private TableColumn<EmailMessage, Date> dateColumn;
+
         @FXML
         void addAccountAction() {
-          viewFactory.showLoginWindow();
+                viewFactory.showLoginWindow();
         }
+
         @FXML
         void optionsAction() {
-        viewFactory.showOptionsWindow();
+                viewFactory.showOptionsWindow();
         }
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
-             setUpEmailsTreeView();
-             setUpEmailTableColumns();
-             setUpSelectedFolder();
-                     
+                setUpEmailsTreeView();
+                setUpEmailTableColumns();
+                setUpSelectedFolder();
+                setUpBoldRows();
+
 
         }
 
+
         private void setUpSelectedFolder() {
                 emailsTreeView.setOnMouseClicked(e -> {
-                        EmailTreeItem<String> item=(EmailTreeItem<String>)emailsTreeView.getSelectionModel().getSelectedItem();
-                        if (item!=null){
+                        EmailTreeItem<String> item = (EmailTreeItem<String>) emailsTreeView.getSelectionModel().getSelectedItem();
+                        if (item != null) {
                                 emailsTableView.setItems(item.getEmailMessages());
                         }
                 });
@@ -82,4 +88,27 @@ public class MainWindowController extends Controller implements Initializable {
                 emailsTreeView.setRoot(emailManager.getFoldersRoot());
                 emailsTreeView.setShowRoot(false);
         }
+
+        private void setUpBoldRows() {
+                emailsTableView.setRowFactory(new Callback<TableView<EmailMessage>, TableRow<EmailMessage>>() {
+                        @Override
+                        public TableRow<EmailMessage> call(TableView<EmailMessage> param) {
+                                return new TableRow<EmailMessage>() {
+                                        @Override
+                                        protected void updateItem(EmailMessage emailMessage, boolean empty) {
+                                                super.updateItem(emailMessage, empty);
+                                                if (emailMessage != null) {
+                                                        if (emailMessage.isRead()) {
+                                                                setStyle("");
+                                                        } else {
+                                                                setStyle("-fx-font-weight: bold");
+                                                        }
+                                                }
+                                        }
+
+                                };
+                        }
+                });
+        }
+
 }
