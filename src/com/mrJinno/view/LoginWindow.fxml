@@ -25,7 +25,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="emailAdressField" layoutX="106.0" layoutY="164.0" prefHeight="25.0" prefWidth="316.0" />
+      <TextField fx:id="emailAddressField" layoutX="106.0" layoutY="164.0" prefHeight="25.0" prefWidth="316.0" />
       <PasswordField fx:id="passwordField" layoutX="106.0" layoutY="192.0" prefHeight="25.0" prefWidth="316.0" />
       <Label fx:id="errorLabel" layoutX="179.0" layoutY="309.0" prefHeight="40.0" prefWidth="243.0" />
    </children>

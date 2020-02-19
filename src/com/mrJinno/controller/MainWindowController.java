@@ -1,6 +1,7 @@
 package com.mrJinno.controller;
 
 import com.mrJinno.EmailManager;
+import com.mrJinno.controller.services.MessageRenderService;
 import com.mrJinno.model.EmailMessage;
 import com.mrJinno.model.EmailTreeItem;
 import com.mrJinno.view.ViewFactory;
@@ -19,10 +20,11 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class MainWindowController extends Controller implements Initializable {
+        private MessageRenderService messageRenderService;
+
         public MainWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
                 super(emailManager, viewFactory, fxmlName);
         }
-
         @FXML
         private TreeView<String> emailsTreeView;
 
@@ -46,6 +48,7 @@ public class MainWindowController extends Controller implements Initializable {
         @FXML
         private TableColumn<EmailMessage, Date> dateColumn;
 
+
         @FXML
         void addAccountAction() {
                 viewFactory.showLoginWindow();
@@ -62,10 +65,25 @@ public class MainWindowController extends Controller implements Initializable {
                 setUpEmailTableColumns();
                 setUpSelectedFolder();
                 setUpBoldRows();
+                setUpMessageRenderService();
+                setUpMessageSelection();
 
 
         }
 
+        private void setUpMessageSelection() {
+                emailsTableView.setOnMouseClicked(e->{
+                        EmailMessage emailMessage= emailsTableView.getSelectionModel().getSelectedItem();
+                        if (emailMessage !=null){
+                                messageRenderService.setEmailMessage(emailMessage);
+                                messageRenderService.restart();
+                        }
+                });
+        }
+
+        private void setUpMessageRenderService() {
+                messageRenderService= new MessageRenderService(emailWebView.getEngine());
+        }
 
         private void setUpSelectedFolder() {
                 emailsTreeView.setOnMouseClicked(e -> {

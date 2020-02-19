@@ -4,6 +4,8 @@ import com.mrJinno.EmailManager;
 import com.mrJinno.controller.services.LoginService;
 import com.mrJinno.model.EmailAccount;
 import com.mrJinno.view.ViewFactory;
+import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -11,6 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.w3c.dom.ls.LSOutput;
 
 import java.net.URL;
 import java.util.EventListener;
@@ -23,11 +26,27 @@ public class LoginWindowController extends Controller implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        emailAdressField.setText("bio.sad7@gmail.com");
+        emailAddressField.setText("bio.sad7@gmail.com");
+       setUpKeyEventHandler();
+    }
+
+    private void setUpKeyEventHandler() {
+        passwordField.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()){
+                    case ENTER:
+                        loginButtonAction();
+                        break;
+                    case ESCAPE:
+                        System.exit(0);
+                }
+            }
+        });
     }
 
     @FXML
-    private TextField emailAdressField;
+    private TextField emailAddressField;
 
     @FXML
     private PasswordField passwordField;
@@ -36,11 +55,12 @@ public class LoginWindowController extends Controller implements Initializable{
     private Label errorLabel;
 
     @FXML
-    void loginButtonAction() {
+   private void loginButtonAction() {
         if (fieldsAreValid()) {
           initializeLoginService();
         }
     }
+
     private boolean fieldsAreValid() {
         if (emailAdressField.getText().isEmpty()) {
             errorLabel.setText("Please Insert Email");
@@ -74,7 +94,7 @@ public class LoginWindowController extends Controller implements Initializable{
     }
 
     public void switchStageToMainWindow(){
-        System.out.println("Login Succes!");
+        System.out.println("Login Success!");
         viewFactory.showMainWindow();
         Stage stage=(Stage) errorLabel.getScene().getWindow();
         viewFactory.closeStage(stage);
