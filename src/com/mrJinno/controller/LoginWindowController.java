@@ -81,7 +81,6 @@ public class LoginWindowController extends Controller implements Initializable{
                     errorLabel.setText("unexpected error!!!"); break;
                 case FAILED_BY_CREDENTIALS:
                     errorLabel.setText("Invalid credentials!"); break;
-
             }
         });
     }

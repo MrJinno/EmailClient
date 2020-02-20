@@ -18,7 +18,6 @@ public class ViewFactory {
     private Stage stage= new Stage();
     private ArrayList<Stage> activeStages;
     private ColorTheme colorTheme= ColorTheme.DEFAULT;
-
     private FontSize fontSize=FontSize.SMALL;
 
     public ViewFactory(EmailManager emailManager) {
@@ -104,6 +103,7 @@ public class ViewFactory {
     public FontSize getFontSize() {
         return fontSize;
     }
+
     public void setFontSize(FontSize fontSize) {
         this.fontSize = fontSize;
     }

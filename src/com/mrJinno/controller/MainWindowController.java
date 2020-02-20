@@ -67,35 +67,11 @@ public class MainWindowController extends Controller implements Initializable {
                 setUpBoldRows();
                 setUpMessageRenderService();
                 setUpMessageSelection();
-
-
         }
 
-        private void setUpMessageSelection() {
-                emailsTableView.setOnMouseClicked(e->{
-                        EmailMessage emailMessage= emailsTableView.getSelectionModel().getSelectedItem();
-                        if (emailMessage !=null){
-                                emailManager.setSelectedMessage(emailMessage);
-                                messageRenderService.setEmailMessage(emailMessage);
-                                messageRenderService.restart();
-                                emailManager.setMessageAsRead();
-                        }
-                });
-        }
-
-
-        private void setUpMessageRenderService() {
-                messageRenderService= new MessageRenderService(emailWebView.getEngine());
-        }
-
-        private void setUpSelectedFolder() {
-                emailsTreeView.setOnMouseClicked(e -> {
-                        EmailTreeItem<String> item = (EmailTreeItem<String>) emailsTreeView.getSelectionModel().getSelectedItem();
-                        if (item != null) {
-                                emailManager.setSelectedFolder(item);
-                                emailsTableView.setItems(item.getEmailMessages());
-                        }
-                });
+        private void setUpEmailsTreeView() {
+                emailsTreeView.setRoot(emailManager.getFoldersRoot());
+                emailsTreeView.setShowRoot(false);
         }
 
         private void setUpEmailTableColumns() {
@@ -106,9 +82,14 @@ public class MainWindowController extends Controller implements Initializable {
                 dateColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
         }
 
-        private void setUpEmailsTreeView() {
-                emailsTreeView.setRoot(emailManager.getFoldersRoot());
-                emailsTreeView.setShowRoot(false);
+        private void setUpSelectedFolder() {
+                emailsTreeView.setOnMouseClicked(e -> {
+                        EmailTreeItem<String> item = (EmailTreeItem<String>) emailsTreeView.getSelectionModel().getSelectedItem();
+                        if (item != null) {
+                                emailManager.setSelectedFolder(item);
+                                emailsTableView.setItems(item.getEmailMessages());
+                        }
+                });
         }
 
         private void setUpBoldRows() {
@@ -129,6 +110,22 @@ public class MainWindowController extends Controller implements Initializable {
                                         }
 
                                 };
+                        }
+                });
+        }
+
+        private void setUpMessageRenderService() {
+                messageRenderService= new MessageRenderService(emailWebView.getEngine());
+        }
+
+        private void setUpMessageSelection() {
+                emailsTableView.setOnMouseClicked(e->{
+                        EmailMessage emailMessage= emailsTableView.getSelectionModel().getSelectedItem();
+                        if (emailMessage !=null){
+                                emailManager.setSelectedMessage(emailMessage);
+                                messageRenderService.setEmailMessage(emailMessage);
+                                messageRenderService.restart();
+                                emailManager.setMessageAsRead();
                         }
                 });
         }

@@ -21,10 +21,13 @@ public class MessageRenderService extends Service {
     public MessageRenderService(WebEngine webEngine) {
         this.webEngine = webEngine;
         stringBuffer = new StringBuffer();
-        this.setOnSucceeded(e->{
-           displayMessage();
+        this.setOnSucceeded(e -> {
+            displayMessage();
         });
+    }
 
+    private void displayMessage() {
+        webEngine.loadContent(stringBuffer.toString());
     }
 
     @Override
@@ -36,9 +39,6 @@ public class MessageRenderService extends Service {
                 return null;
             }
         };
-    }
-    private void displayMessage(){
-        webEngine.loadContent(stringBuffer.toString());
     }
 
     private void loadMessage() throws MessagingException, IOException {
@@ -57,6 +57,16 @@ public class MessageRenderService extends Service {
         }
     }
 
+    private boolean isSimpleType(String contentType) {
+        return contentType.contains("TEXT/HTML") ||
+                contentType.contains("mixed") ||
+                contentType.contains("text");
+    }
+
+    private boolean isMultipartType(String contentType) {
+        return contentType.contains("multipart");
+    }
+
     private void setUpMultipartTypeMessage(Message message) throws IOException, MessagingException {
         Multipart multipart = (Multipart) message.getContent();
         for (int i = multipart.getCount() - 1; i >= 0; i--) {
@@ -66,16 +76,6 @@ public class MessageRenderService extends Service {
                 stringBuffer.append(bodyPart.getContent().toString());
             }
         }
-    }
-
-    private boolean isSimpleType(String contentType) {
-        return contentType.contains("TEXT/HTML") ||
-                contentType.contains("mixed") ||
-                contentType.contains("text");
-    }
-
-    private boolean isMultipartType(String contentType) {
-        return contentType.contains("multipart");
     }
 
     public void setEmailMessage(EmailMessage emailMessage) {

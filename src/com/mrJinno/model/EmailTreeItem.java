@@ -20,14 +20,6 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         this.emailMessages = FXCollections.observableArrayList();
     }
 
-    public void addEmail(Message message) throws MessagingException {
-        emailMessages.add(fetchMessage(message));
-    }
-
-    public void addEmailToTop(Message message) throws MessagingException {
-        emailMessages.add(0,fetchMessage(message));
-    }
-
     private EmailMessage fetchMessage(Message message) throws MessagingException {
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
         EmailMessage emailMessage= new EmailMessage(
@@ -39,17 +31,25 @@ public class EmailTreeItem<String> extends TreeItem<String> {
                 messageIsRead,
                 message
         );
-
         if (!messageIsRead){
             incrementMessagesCount();
         }
         return emailMessage;
     }
 
+    public void addEmail(Message message) throws MessagingException {
+        emailMessages.add(fetchMessage(message));
+    }
+
+    public void addEmailToTop(Message message) throws MessagingException {
+        emailMessages.add(0,fetchMessage(message));
+    }
+
     public void incrementMessagesCount(){
         unreadMessagesCount++;
         updateUnreadMessagesCount();
     }
+
     public void decrementMessagesCount(){
         unreadMessagesCount--;
         updateUnreadMessagesCount();
