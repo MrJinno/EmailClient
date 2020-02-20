@@ -75,11 +75,14 @@ public class MainWindowController extends Controller implements Initializable {
                 emailsTableView.setOnMouseClicked(e->{
                         EmailMessage emailMessage= emailsTableView.getSelectionModel().getSelectedItem();
                         if (emailMessage !=null){
+                                emailManager.setSelectedMessage(emailMessage);
                                 messageRenderService.setEmailMessage(emailMessage);
                                 messageRenderService.restart();
+                                emailManager.setMessageAsRead();
                         }
                 });
         }
+
 
         private void setUpMessageRenderService() {
                 messageRenderService= new MessageRenderService(emailWebView.getEngine());
@@ -89,6 +92,7 @@ public class MainWindowController extends Controller implements Initializable {
                 emailsTreeView.setOnMouseClicked(e -> {
                         EmailTreeItem<String> item = (EmailTreeItem<String>) emailsTreeView.getSelectionModel().getSelectedItem();
                         if (item != null) {
+                                emailManager.setSelectedFolder(item);
                                 emailsTableView.setItems(item.getEmailMessages());
                         }
                 });
