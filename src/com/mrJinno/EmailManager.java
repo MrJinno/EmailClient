@@ -5,6 +5,8 @@ import com.mrJinno.controller.services.FolderUpdateService;
 import com.mrJinno.model.EmailAccount;
 import com.mrJinno.model.EmailMessage;
 import com.mrJinno.model.EmailTreeItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -18,6 +20,7 @@ public class EmailManager {
     private FolderUpdateService folderUpdateService;
     private EmailMessage selectedMessage;
     private EmailTreeItem<String> selectedFolder;
+    private ObservableList<EmailAccount> emailAccounts= FXCollections.observableArrayList();
 
     public EmailManager() {
         folderUpdateService = new FolderUpdateService(folderList);
@@ -25,21 +28,30 @@ public class EmailManager {
     }
 
     public void addEmailAccount(EmailAccount emailAccount) {
+        emailAccounts.add(emailAccount);
         EmailTreeItem<String> treeItem = new EmailTreeItem<>(emailAccount.getAddress());
         FetchFoldersService fetchFoldersService = new FetchFoldersService(emailAccount.getStore(), treeItem, folderList);
         fetchFoldersService.start();
         foldersRoot.getChildren().add(treeItem);
     }
 
-    public void setMessageAsRead() {
-        if (!selectedMessage.isRead()) {
+    public void setMessageReadState(boolean setAsRead) {
             try {
-                selectedMessage.setRead(true);
-                selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, true);
-                selectedFolder.decrementMessagesCount();
+                selectedMessage.setRead(setAsRead);
+                selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, setAsRead);
+                if (setAsRead)selectedFolder.decrementMessagesCount();
+                else selectedFolder.incrementMessagesCount();
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
+    }
+
+    public void deleteSelectedMessage(){
+        try {
+            selectedMessage.getMessage().setFlag(Flags.Flag.DELETED, true);
+            selectedFolder.getEmailMessages().remove(selectedMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
 
@@ -69,5 +81,9 @@ public class EmailManager {
 
     public void setSelectedFolder(EmailTreeItem<String> selectedFolder) {
         this.selectedFolder = selectedFolder;
+    }
+
+    public ObservableList<EmailAccount> getEmailAccounts() {
+        return emailAccounts;
     }
 }

@@ -30,6 +30,11 @@
               <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Email">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#WriteEmailAction" text="SendAnEmail" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
       <TreeView fx:id="emailsTreeView" layoutY="25.0" prefHeight="580.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />

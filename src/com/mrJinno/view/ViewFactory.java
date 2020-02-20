@@ -1,10 +1,7 @@
 package com.mrJinno.view;
 
 import com.mrJinno.EmailManager;
-import com.mrJinno.controller.Controller;
-import com.mrJinno.controller.LoginWindowController;
-import com.mrJinno.controller.MainWindowController;
-import com.mrJinno.controller.OptionsWindowController;
+import com.mrJinno.controller.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -41,6 +38,12 @@ public class ViewFactory {
         System.out.println("Options window called");
         OptionsWindowController optionsWindowController=new OptionsWindowController(emailManager, this, "OptionsWindow.fxml");
         initializeScene(optionsWindowController, true);
+    }
+
+    public void showComposeMessageWindow(){
+        System.out.println("Compose window called");
+        ComposeMessageController composeMessageController=new ComposeMessageController(emailManager, this, "ComposeMessageWindow.fxml");
+        initializeScene(composeMessageController, true);
     }
 
     public void initializeScene(Controller controller, boolean isCreatingNewWindow){

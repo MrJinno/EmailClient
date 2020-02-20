@@ -7,10 +7,7 @@ import com.mrJinno.model.EmailTreeItem;
 import com.mrJinno.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
@@ -21,6 +18,9 @@ import java.util.ResourceBundle;
 
 public class MainWindowController extends Controller implements Initializable {
         private MessageRenderService messageRenderService;
+        private MenuItem markUnreadMenuItem = new MenuItem("mark as unread");
+        private MenuItem deleteMessageMenuItem = new MenuItem("delete message");
+
 
         public MainWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
                 super(emailManager, viewFactory, fxmlName);
@@ -48,7 +48,10 @@ public class MainWindowController extends Controller implements Initializable {
         @FXML
         private TableColumn<EmailMessage, Date> dateColumn;
 
-
+        @FXML
+        void WriteEmailAction() {
+                viewFactory.showComposeMessageWindow();
+        }
         @FXML
         void addAccountAction() {
                 viewFactory.showLoginWindow();
@@ -62,11 +65,12 @@ public class MainWindowController extends Controller implements Initializable {
         @Override
         public void initialize(URL location, ResourceBundle resources) {
                 setUpEmailsTreeView();
-                setUpEmailTableColumns();
+                setUpEmailTableView();
                 setUpSelectedFolder();
                 setUpBoldRows();
                 setUpMessageRenderService();
                 setUpMessageSelection();
+                setUpTableViewContextMenu();
         }
 
         private void setUpEmailsTreeView() {
@@ -74,12 +78,22 @@ public class MainWindowController extends Controller implements Initializable {
                 emailsTreeView.setShowRoot(false);
         }
 
-        private void setUpEmailTableColumns() {
+        private void setUpEmailTableView() {
                 senderColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("sender"));
                 subjectColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("subject"));
                 recipientColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
                 sizeColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Integer>("size"));
                 dateColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
+
+        }
+
+        private void setUpTableViewContextMenu() {
+                emailsTableView.setContextMenu(new ContextMenu(markUnreadMenuItem, deleteMessageMenuItem));
+                markUnreadMenuItem.setOnAction(e-> emailManager.setMessageReadState(false));
+                deleteMessageMenuItem.setOnAction(e-> {
+                        emailManager.deleteSelectedMessage();
+                        emailWebView.getEngine().loadContent("");
+                });
         }
 
         private void setUpSelectedFolder() {
@@ -125,7 +139,7 @@ public class MainWindowController extends Controller implements Initializable {
                                 emailManager.setSelectedMessage(emailMessage);
                                 messageRenderService.setEmailMessage(emailMessage);
                                 messageRenderService.restart();
-                                emailManager.setMessageAsRead();
+                                emailManager.setMessageReadState(true);
                         }
                 });
         }

@@ -40,4 +40,10 @@ public class EmailAccount {
     public void setStore(Store store) {
         this.store = store;
     }
+
+    @Override
+    public String toString() {
+        return  address;
+
+    }
 }
