@@ -12,14 +12,14 @@ import javax.mail.internet.MimeMultipart;
 
 public class EmailSendService extends Service<EmailSendingResult> {
     private EmailAccount emailAccount;
-    private String Subject;
+    private String subject;
     private String recipient;
     private String content;
     private MimeMessage mimeMessage;
 
     public EmailSendService(EmailAccount emailAccount, String subject, String recipient, String content) {
         this.emailAccount = emailAccount;
-        Subject = subject;
+        this.subject = subject;
         this.recipient = recipient;
         this.content = content;
     }
@@ -39,8 +39,11 @@ public class EmailSendService extends Service<EmailSendingResult> {
             createTheMessage();
             setTheContent();
             sendTheMessageAction();
+            return EmailSendingResult.SUCCESS;
         } catch (MessagingException e) {
-            e.printStackTrace();
+            return EmailSendingResult.FAILED_BY_PROVIDER;
+        } catch (Exception e){
+            return EmailSendingResult.FAILED_BY_UNEXPECTED_ERROR;
         }
     }
 
@@ -48,6 +51,7 @@ public class EmailSendService extends Service<EmailSendingResult> {
         mimeMessage= new MimeMessage(emailAccount.getSession());
         mimeMessage.setFrom(emailAccount.getAddress());
         mimeMessage.addRecipients(Message.RecipientType.TO, recipient);
+        mimeMessage.setSubject(subject);
     }
 
     private void setTheContent() throws MessagingException {
@@ -58,9 +62,15 @@ public class EmailSendService extends Service<EmailSendingResult> {
         mimeMessage.setContent(multipart);
     }
 
-    private void sendTheMessageAction() throws NoSuchProviderException {
+    private void sendTheMessageAction() throws MessagingException {
         Transport transport = emailAccount.getSession().getTransport();
-        
+        transport.connect(
+                emailAccount.getProperties().getProperty("outgoingHost"),
+                emailAccount.getAddress(),
+                emailAccount.getPassword()
+        );
+        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+        transport.close();
     }
 
 

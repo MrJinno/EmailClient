@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailTreeItem<String> extends TreeItem<String> {
     private String name;
     private ObservableList<EmailMessage> emailMessages;
-    private int unreadMessagesCount=0;
+    private int unreadMessagesCount = 0;
 
     public EmailTreeItem(String name) {
         super(name);
@@ -22,7 +22,7 @@ public class EmailTreeItem<String> extends TreeItem<String> {
 
     private EmailMessage fetchMessage(Message message) throws MessagingException {
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
-        EmailMessage emailMessage= new EmailMessage(
+        EmailMessage emailMessage = new EmailMessage(
                 message.getSubject(),
                 message.getFrom()[0].toString(),
                 message.getRecipients(MimeMessage.RecipientType.TO)[0].toString(),
@@ -31,7 +31,7 @@ public class EmailTreeItem<String> extends TreeItem<String> {
                 messageIsRead,
                 message
         );
-        if (!messageIsRead){
+        if (!messageIsRead) {
             incrementMessagesCount();
         }
         return emailMessage;
@@ -42,22 +42,22 @@ public class EmailTreeItem<String> extends TreeItem<String> {
     }
 
     public void addEmailToTop(Message message) throws MessagingException {
-        emailMessages.add(0,fetchMessage(message));
+        emailMessages.add(0, fetchMessage(message));
     }
 
-    public void incrementMessagesCount(){
+    public void incrementMessagesCount() {
         unreadMessagesCount++;
         updateUnreadMessagesCount();
     }
 
-    public void decrementMessagesCount(){
+    public void decrementMessagesCount() {
         unreadMessagesCount--;
         updateUnreadMessagesCount();
     }
 
-    public void updateUnreadMessagesCount(){
-        if (unreadMessagesCount>0){
-            this.setValue((String)(name + "[" + unreadMessagesCount + "]"));
+    public void updateUnreadMessagesCount() {
+        if (unreadMessagesCount > 0) {
+            this.setValue((String) (name + "[" + unreadMessagesCount + "]"));
         } else {
             this.setValue(name);
         }

@@ -10,7 +10,7 @@ public class EmailMessage {
     private SimpleStringProperty subject;
     private SimpleStringProperty sender;
     private SimpleStringProperty recipient;
-    private SimpleStringProperty size;
+    private SimpleObjectProperty<SizeInteger> size;
     private SimpleObjectProperty<Date> date;
     private boolean isRead;
     private Message message;
@@ -19,31 +19,28 @@ public class EmailMessage {
         this.subject = new SimpleStringProperty(subject);
         this.sender = new SimpleStringProperty(sender);
         this.recipient = new SimpleStringProperty(recipient);
-        this.size = new SimpleStringProperty(new SizeInteger(size).toString());
+        this.size = new SimpleObjectProperty<>(new SizeInteger(size));
         this.date = new SimpleObjectProperty<>(date);
         this.isRead = isRead;
         this.message = message;
     }
 
     public String getSender() {
-        return subject.get();
+        return sender.get();
     }
 
     public String getSubject() {
-        return sender.get();
+        return subject.get();
     }
 
     public String getRecipient() {
         return recipient.get();
     }
 
-    public String getSize() {
+    public SizeInteger getSize() {
         return size.get();
     }
 
-    public SimpleStringProperty sizeProperty() {
-        return size;
-    }
 
     public Date getDate() {
         return date.get();

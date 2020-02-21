@@ -4,6 +4,7 @@ import com.mrJinno.EmailManager;
 import com.mrJinno.controller.services.MessageRenderService;
 import com.mrJinno.model.EmailMessage;
 import com.mrJinno.model.EmailTreeItem;
+import com.mrJinno.model.SizeInteger;
 import com.mrJinno.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,7 +44,7 @@ public class MainWindowController extends Controller implements Initializable {
         private TableColumn<EmailMessage, String> recipientColumn;
 
         @FXML
-        private TableColumn<EmailMessage, Integer> sizeColumn;
+        private TableColumn<EmailMessage, SizeInteger> sizeColumn;
 
         @FXML
         private TableColumn<EmailMessage, Date> dateColumn;
@@ -82,7 +83,7 @@ public class MainWindowController extends Controller implements Initializable {
                 senderColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("sender"));
                 subjectColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("subject"));
                 recipientColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
-                sizeColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Integer>("size"));
+                sizeColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, SizeInteger>("size"));
                 dateColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
 
         }
