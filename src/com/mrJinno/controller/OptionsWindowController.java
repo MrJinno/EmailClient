@@ -19,10 +19,13 @@ public class OptionsWindowController extends Controller implements Initializable
     public OptionsWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         super(emailManager, viewFactory, fxmlName);
     }
+
     @FXML
     private Slider fontSizePicker;
+
     @FXML
     private ChoiceBox<ColorTheme> themePicker;
+
     @FXML
     void applyButtonAction() {
         viewFactory.setColorTheme(themePicker.getValue());
@@ -31,6 +34,7 @@ public class OptionsWindowController extends Controller implements Initializable
         System.out.println(viewFactory.getFontSize());
         viewFactory.updateStyles();
     }
+
     @FXML
     void cancelButtonAction() {
         Stage stage= (Stage) fontSizePicker.getScene().getWindow();

@@ -5,6 +5,7 @@ import com.mrJinno.controller.services.FolderUpdateService;
 import com.mrJinno.model.EmailAccount;
 import com.mrJinno.model.EmailMessage;
 import com.mrJinno.model.EmailTreeItem;
+import com.mrJinno.view.IconResolver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -21,6 +22,7 @@ public class EmailManager {
     private EmailMessage selectedMessage;
     private EmailTreeItem<String> selectedFolder;
     private ObservableList<EmailAccount> emailAccounts= FXCollections.observableArrayList();
+    private IconResolver iconResolver=new IconResolver();
 
     public EmailManager() {
         folderUpdateService = new FolderUpdateService(folderList);
@@ -30,6 +32,7 @@ public class EmailManager {
     public void addEmailAccount(EmailAccount emailAccount) {
         emailAccounts.add(emailAccount);
         EmailTreeItem<String> treeItem = new EmailTreeItem<>(emailAccount.getAddress());
+        treeItem.setGraphic(iconResolver.getIconForFolder(emailAccount.getAddress()));
         FetchFoldersService fetchFoldersService = new FetchFoldersService(emailAccount.getStore(), treeItem, folderList);
         fetchFoldersService.start();
         foldersRoot.getChildren().add(treeItem);
