@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="335.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="335.0" styleClass="container" prefWidth="474.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Slider fx:id="fontSizePicker" layoutX="162.0" layoutY="106.0" prefHeight="14.0" prefWidth="150.0" />
       <ChoiceBox fx:id="themePicker" layoutX="162.0" layoutY="175.0" prefWidth="150.0" />
