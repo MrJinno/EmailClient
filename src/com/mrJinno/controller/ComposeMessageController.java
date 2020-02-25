@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ComposeMessageController extends Controller implements Initializable {
+
     public ComposeMessageController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         super(emailManager, viewFactory, fxmlName);
     }
@@ -37,22 +38,22 @@ public class ComposeMessageController extends Controller implements Initializabl
 
     @FXML
     void sendButtonAction() {
-      startEmailSendingService();
+        startEmailSendingService();
     }
 
     private void startEmailSendingService() {
-        EmailSendService emailSendService= new EmailSendService(
+        EmailSendService emailSendService = new EmailSendService(
                 emailAccountChoice.getValue(),
                 subjectTextField.getText(),
                 recipientTextField.getText(),
                 htmlEditor.getHtmlText()
         );
         emailSendService.start();
-        emailSendService.setOnSucceeded(e->{
-            EmailSendingResult emailSendingResult= emailSendService.getValue();
-            switch (emailSendingResult){
+        emailSendService.setOnSucceeded(e -> {
+            EmailSendingResult emailSendingResult = emailSendService.getValue();
+            switch (emailSendingResult) {
                 case SUCCESS:
-                    viewFactory.closeStage((Stage)errorLabel.getScene().getWindow());
+                    viewFactory.closeStage((Stage) errorLabel.getScene().getWindow());
                     break;
                 case FAILED_BY_PROVIDER:
                     errorLabel.setText("Provider error!");

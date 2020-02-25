@@ -41,7 +41,6 @@ public class EmailMessage {
         return size.get();
     }
 
-
     public Date getDate() {
         return date.get();
     }

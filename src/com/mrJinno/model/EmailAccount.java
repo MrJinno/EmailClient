@@ -13,10 +13,9 @@ public class EmailAccount {
     public EmailAccount(String address, String password) {
         this.address = address;
         this.password = password;
-        properties= new Properties();
+        properties = new Properties();
         properties.put("incomingHost", "imap.gmail.com");
         properties.put("mail.store.protocol", "imaps");
-
         properties.put("mail.transport.protocol", "smtps");
         properties.put("mail.smtps.host", "smtp.gmail.com");
         properties.put("mail.smtps.auth", "true");
@@ -25,8 +24,7 @@ public class EmailAccount {
 
     @Override
     public String toString() {
-        return  address;
-
+        return address;
     }
 
     public String getAddress() {

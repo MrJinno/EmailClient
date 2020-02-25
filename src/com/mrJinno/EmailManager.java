@@ -18,14 +18,13 @@ import java.util.List;
 public class EmailManager {
     private EmailTreeItem<String> foldersRoot = new EmailTreeItem<>("");
     private List<Folder> folderList = new ArrayList<>();
-    private FolderUpdateService folderUpdateService;
     private EmailMessage selectedMessage;
     private EmailTreeItem<String> selectedFolder;
-    private ObservableList<EmailAccount> emailAccounts= FXCollections.observableArrayList();
-    private IconResolver iconResolver=new IconResolver();
+    private ObservableList<EmailAccount> emailAccounts = FXCollections.observableArrayList();
+    private IconResolver iconResolver = new IconResolver();
 
     public EmailManager() {
-        folderUpdateService = new FolderUpdateService(folderList);
+        FolderUpdateService folderUpdateService = new FolderUpdateService(folderList);
         folderUpdateService.start();
     }
 
@@ -39,17 +38,17 @@ public class EmailManager {
     }
 
     public void setMessageReadState(boolean setAsRead) {
-            try {
-                selectedMessage.setRead(setAsRead);
-                selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, setAsRead);
-                if (setAsRead)selectedFolder.decrementMessagesCount();
-                else selectedFolder.incrementMessagesCount();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
+        try {
+            selectedMessage.setRead(setAsRead);
+            selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, setAsRead);
+            if (setAsRead) selectedFolder.decrementMessagesCount();
+            else selectedFolder.incrementMessagesCount();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void deleteSelectedMessage(){
+    public void deleteSelectedMessage() {
         try {
             selectedMessage.getMessage().setFlag(Flags.Flag.DELETED, true);
             selectedFolder.getEmailMessages().remove(selectedMessage);

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
+
     @Override
     public void start(Stage mainStage) throws Exception {
         ViewFactory viewFactory = new ViewFactory(new EmailManager());

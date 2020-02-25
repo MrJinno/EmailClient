@@ -10,11 +10,9 @@ import javax.mail.*;
 
 public class LoginService extends Service<EmailLoginResult> {
     private EmailAccount emailAccount;
-    private EmailManager emailManager;
 
     public LoginService(EmailAccount emailAccount, EmailManager emailManager) {
         this.emailAccount = emailAccount;
-        this.emailManager = emailManager;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class LoginService extends Service<EmailLoginResult> {
         return getLoginResult(authenticator);
     }
 
-    public EmailLoginResult getLoginResult(Authenticator authenticator) {
+    private EmailLoginResult getLoginResult(Authenticator authenticator) {
         try {
             Session session = Session.getInstance(emailAccount.getProperties(), authenticator);
             emailAccount.setSession(session);

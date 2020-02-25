@@ -42,20 +42,20 @@ public class EmailSendService extends Service<EmailSendingResult> {
             return EmailSendingResult.SUCCESS;
         } catch (MessagingException e) {
             return EmailSendingResult.FAILED_BY_PROVIDER;
-        } catch (Exception e){
+        } catch (Exception e) {
             return EmailSendingResult.FAILED_BY_UNEXPECTED_ERROR;
         }
     }
 
     private void createTheMessage() throws MessagingException {
-        mimeMessage= new MimeMessage(emailAccount.getSession());
+        mimeMessage = new MimeMessage(emailAccount.getSession());
         mimeMessage.setFrom(emailAccount.getAddress());
         mimeMessage.addRecipients(Message.RecipientType.TO, recipient);
         mimeMessage.setSubject(subject);
     }
 
     private void setTheContent() throws MessagingException {
-        Multipart multipart=new MimeMultipart();
+        Multipart multipart = new MimeMultipart();
         BodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setContent(content, "text/html");
         multipart.addBodyPart(messageBodyPart);
@@ -72,6 +72,4 @@ public class EmailSendService extends Service<EmailSendingResult> {
         transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
         transport.close();
     }
-
-
 }

@@ -12,61 +12,62 @@ import java.util.ArrayList;
 
 public class ViewFactory {
     private EmailManager emailManager;
-    private Stage stage= new Stage();
+    private Stage stage = new Stage();
     private ArrayList<Stage> activeStages;
-    private ColorTheme colorTheme= ColorTheme.DEFAULT;
-    private FontSize fontSize=FontSize.SMALL;
+    private ColorTheme colorTheme = ColorTheme.DEFAULT;
+    private FontSize fontSize = FontSize.SMALL;
 
     public ViewFactory(EmailManager emailManager) {
-        activeStages=new ArrayList<>();
+        activeStages = new ArrayList<>();
         this.emailManager = emailManager;
     }
 
-    public void showLoginWindow(){
+    public void showLoginWindow() {
         System.out.println("Show Login Window Called");
-        LoginWindowController loginWindowController= new LoginWindowController(emailManager, this, "LoginWindow.fxml");
-        initializeScene(loginWindowController,true);
+        LoginWindowController loginWindowController = new LoginWindowController(emailManager, this, "LoginWindow.fxml");
+        initializeScene(loginWindowController, true);
     }
 
-    public void showMainWindow(){
+    public void showMainWindow() {
         System.out.println("Show Main Window Called");
-        MainWindowController mainWindowController=new MainWindowController(emailManager, this, "MainWindow.fxml");
+        MainWindowController mainWindowController = new MainWindowController(emailManager, this, "MainWindow.fxml");
         initializeScene(mainWindowController, false);
     }
 
-    public void showOptionsWindow(){
+    public void showOptionsWindow() {
         System.out.println("Options window called");
-        OptionsWindowController optionsWindowController=new OptionsWindowController(emailManager, this, "OptionsWindow.fxml");
+        OptionsWindowController optionsWindowController = new OptionsWindowController(emailManager, this, "OptionsWindow.fxml");
         initializeScene(optionsWindowController, true);
     }
 
-    public void showComposeMessageWindow(){
+    public void showComposeMessageWindow() {
         System.out.println("Compose window called");
-        ComposeMessageController composeMessageController=new ComposeMessageController(emailManager, this, "ComposeMessageWindow.fxml");
+        ComposeMessageController composeMessageController = new ComposeMessageController(emailManager, this, "ComposeMessageWindow.fxml");
         initializeScene(composeMessageController, true);
     }
 
-    public void initializeScene(Controller controller, boolean isCreatingNewWindow){
-        FXMLLoader fxmlLoader= initializeFxmlFile(controller);
-        Parent parent=getFxmlRoot(fxmlLoader);
+    private void initializeScene(Controller controller, boolean isCreatingNewWindow) {
+        FXMLLoader fxmlLoader = initializeFxmlFile(controller);
+        Parent parent = getFxmlRoot(fxmlLoader);
         createScene(parent, isCreatingNewWindow);
         updateStyles();
     }
-    public void createScene(Parent parent, boolean isCreatingNewWindow){
-        if (isCreatingNewWindow){
+
+    private void createScene(Parent parent, boolean isCreatingNewWindow) {
+        if (isCreatingNewWindow) {
             setScene(new Stage(), parent);
-        }else {
-            setScene( stage, parent);
+        } else {
+            setScene(stage, parent);
         }
     }
 
-    public FXMLLoader initializeFxmlFile(Controller controller){
-       FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource(controller.getFxmlFile()));
-       fxmlLoader.setController(controller);
+    private FXMLLoader initializeFxmlFile(Controller controller) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlFile()));
+        fxmlLoader.setController(controller);
         return fxmlLoader;
     }
 
-    public Parent getFxmlRoot(FXMLLoader fxmlLoader){
+    private Parent getFxmlRoot(FXMLLoader fxmlLoader) {
         try {
             return fxmlLoader.load();
         } catch (IOException e) {
@@ -75,20 +76,21 @@ public class ViewFactory {
         }
     }
 
-    public void closeStage(Stage stage){
+    public void closeStage(Stage stage) {
         stage.close();
         activeStages.remove(stage);
     }
+
     public void updateStyles() {
-        for (Stage stage: activeStages){
-            Scene scene=stage.getScene();
+        for (Stage stage : activeStages) {
+            Scene scene = stage.getScene();
             scene.getStylesheets().clear();
             scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(colorTheme)).toExternalForm());
             scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(fontSize)).toExternalForm());
         }
     }
 
-    public void setScene(Stage stage, Parent parent){
+    private void setScene(Stage stage, Parent parent) {
         Scene scene = new Scene(parent);
         stage.setScene(scene);
         stage.show();

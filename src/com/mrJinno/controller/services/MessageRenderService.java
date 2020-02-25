@@ -13,7 +13,6 @@ import javax.mail.Multipart;
 import java.io.IOException;
 
 public class MessageRenderService extends Service {
-
     private EmailMessage emailMessage;
     private WebEngine webEngine;
     private StringBuffer stringBuffer;

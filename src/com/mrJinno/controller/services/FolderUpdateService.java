@@ -8,9 +8,8 @@ import javax.mail.MessagingException;
 import java.util.List;
 
 public class FolderUpdateService extends Service {
-
     private List<Folder> folderList;
-    private static final boolean PROGRAM_IS_RUNNING=true;
+    private static final boolean PROGRAM_IS_RUNNING = true;
 
     public FolderUpdateService(List<Folder> folderList) {
         this.folderList = folderList;
@@ -21,8 +20,8 @@ public class FolderUpdateService extends Service {
         return new Task() {
             @Override
             protected Object call() throws Exception {
-               updateMessages();
-            return null;
+                updateMessages();
+                return null;
             }
         };
     }
@@ -30,8 +29,8 @@ public class FolderUpdateService extends Service {
     private void updateMessages() throws InterruptedException, MessagingException {
         while (PROGRAM_IS_RUNNING) {
             Thread.sleep(5000);
-            for (Folder folder:folderList){
-                if(folder.getType() != Folder.HOLDS_FOLDERS && folder.isOpen()){
+            for (Folder folder : folderList) {
+                if (folder.getType() != Folder.HOLDS_FOLDERS && folder.isOpen()) {
                     folder.getMessageCount();
                 }
             }

@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OptionsWindowController extends Controller implements Initializable {
+
     public OptionsWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         super(emailManager, viewFactory, fxmlName);
     }
@@ -29,7 +30,7 @@ public class OptionsWindowController extends Controller implements Initializable
     @FXML
     void applyButtonAction() {
         viewFactory.setColorTheme(themePicker.getValue());
-        viewFactory.setFontSize(FontSize.values()[(int)(fontSizePicker.getValue())]);
+        viewFactory.setFontSize(FontSize.values()[(int) (fontSizePicker.getValue())]);
         System.out.println(viewFactory.getColorTheme());
         System.out.println(viewFactory.getFontSize());
         viewFactory.updateStyles();
@@ -37,7 +38,7 @@ public class OptionsWindowController extends Controller implements Initializable
 
     @FXML
     void cancelButtonAction() {
-        Stage stage= (Stage) fontSizePicker.getScene().getWindow();
+        Stage stage = (Stage) fontSizePicker.getScene().getWindow();
         viewFactory.closeStage(stage);
     }
 
@@ -49,7 +50,7 @@ public class OptionsWindowController extends Controller implements Initializable
 
     private void setUpSizePicker() {
         fontSizePicker.setMin(0);
-        fontSizePicker.setMax(FontSize.values().length-1);
+        fontSizePicker.setMax(FontSize.values().length - 1);
         fontSizePicker.setValue(viewFactory.getFontSize().ordinal());
         fontSizePicker.setMajorTickUnit(1);
         fontSizePicker.setMinorTickCount(0);
@@ -69,7 +70,7 @@ public class OptionsWindowController extends Controller implements Initializable
                 return null;
             }
         });
-        fontSizePicker.valueProperty().addListener((obs, oldVal, newVal)->{
+        fontSizePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
             fontSizePicker.setValue(newVal.intValue());
         });
     }

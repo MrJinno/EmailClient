@@ -8,7 +8,7 @@ public class SizeInteger implements Comparable<SizeInteger> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         if (size <= 0) {
             return "0";
         } else if (size < 1024) {

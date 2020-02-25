@@ -18,131 +18,132 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class MainWindowController extends Controller implements Initializable {
-        private MessageRenderService messageRenderService;
-        private MenuItem markUnreadMenuItem = new MenuItem("mark as unread");
-        private MenuItem deleteMessageMenuItem = new MenuItem("delete message");
 
+    private MessageRenderService messageRenderService;
+    private MenuItem markUnreadMenuItem = new MenuItem("mark as unread");
+    private MenuItem deleteMessageMenuItem = new MenuItem("delete message");
 
-        public MainWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
-                super(emailManager, viewFactory, fxmlName);
-        }
-        @FXML
-        private TreeView<String> emailsTreeView;
+    public MainWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
+        super(emailManager, viewFactory, fxmlName);
+    }
 
-        @FXML
-        private TableView<EmailMessage> emailsTableView;
+    @FXML
+    private TreeView<String> emailsTreeView;
 
-        @FXML
-        private WebView emailWebView;
-        @FXML
-        private TableColumn<EmailMessage, String> senderColumn;
+    @FXML
+    private TableView<EmailMessage> emailsTableView;
 
-        @FXML
-        private TableColumn<EmailMessage, String> subjectColumn;
+    @FXML
+    private WebView emailWebView;
+    @FXML
+    private TableColumn<EmailMessage, String> senderColumn;
 
-        @FXML
-        private TableColumn<EmailMessage, String> recipientColumn;
+    @FXML
+    private TableColumn<EmailMessage, String> subjectColumn;
 
-        @FXML
-        private TableColumn<EmailMessage, SizeInteger> sizeColumn;
+    @FXML
+    private TableColumn<EmailMessage, String> recipientColumn;
 
-        @FXML
-        private TableColumn<EmailMessage, Date> dateColumn;
+    @FXML
+    private TableColumn<EmailMessage, SizeInteger> sizeColumn;
 
-        @FXML
-        void WriteEmailAction() {
-                viewFactory.showComposeMessageWindow();
-        }
-        @FXML
-        void addAccountAction() {
-                viewFactory.showLoginWindow();
-        }
+    @FXML
+    private TableColumn<EmailMessage, Date> dateColumn;
 
-        @FXML
-        void optionsAction() {
-                viewFactory.showOptionsWindow();
-        }
+    @FXML
+    void WriteEmailAction() {
+        viewFactory.showComposeMessageWindow();
+    }
 
-        @Override
-        public void initialize(URL location, ResourceBundle resources) {
-                setUpEmailsTreeView();
-                setUpEmailTableView();
-                setUpSelectedFolder();
-                setUpBoldRows();
-                setUpMessageRenderService();
-                setUpMessageSelection();
-                setUpTableViewContextMenu();
-        }
+    @FXML
+    void addAccountAction() {
+        viewFactory.showLoginWindow();
+    }
 
-        private void setUpEmailsTreeView() {
-                emailsTreeView.setRoot(emailManager.getFoldersRoot());
-                emailsTreeView.setShowRoot(false);
-        }
+    @FXML
+    void optionsAction() {
+        viewFactory.showOptionsWindow();
+    }
 
-        private void setUpEmailTableView() {
-                senderColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("sender"));
-                subjectColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("subject"));
-                recipientColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
-                sizeColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, SizeInteger>("size"));
-                dateColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setUpEmailsTreeView();
+        setUpEmailTableView();
+        setUpSelectedFolder();
+        setUpBoldRows();
+        setUpMessageRenderService();
+        setUpMessageSelection();
+        setUpTableViewContextMenu();
+    }
 
-        }
+    private void setUpEmailsTreeView() {
+        emailsTreeView.setRoot(emailManager.getFoldersRoot());
+        emailsTreeView.setShowRoot(false);
+    }
 
-        private void setUpTableViewContextMenu() {
-                emailsTableView.setContextMenu(new ContextMenu(markUnreadMenuItem, deleteMessageMenuItem));
-                markUnreadMenuItem.setOnAction(e-> emailManager.setMessageReadState(false));
-                deleteMessageMenuItem.setOnAction(e-> {
-                        emailManager.deleteSelectedMessage();
-                        emailWebView.getEngine().loadContent("");
-                });
-        }
+    private void setUpEmailTableView() {
+        senderColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("sender"));
+        subjectColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("subject"));
+        recipientColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
+        sizeColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, SizeInteger>("size"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
 
-        private void setUpSelectedFolder() {
-                emailsTreeView.setOnMouseClicked(e -> {
-                        EmailTreeItem<String> item = (EmailTreeItem<String>) emailsTreeView.getSelectionModel().getSelectedItem();
-                        if (item != null) {
-                                emailManager.setSelectedFolder(item);
-                                emailsTableView.setItems(item.getEmailMessages());
+    }
+
+    private void setUpSelectedFolder() {
+        emailsTreeView.setOnMouseClicked(e -> {
+            EmailTreeItem<String> item = (EmailTreeItem<String>) emailsTreeView.getSelectionModel().getSelectedItem();
+            if (item != null) {
+                emailManager.setSelectedFolder(item);
+                emailsTableView.setItems(item.getEmailMessages());
+            }
+        });
+    }
+
+    private void setUpBoldRows() {
+        emailsTableView.setRowFactory(new Callback<TableView<EmailMessage>, TableRow<EmailMessage>>() {
+            @Override
+            public TableRow<EmailMessage> call(TableView<EmailMessage> param) {
+                return new TableRow<EmailMessage>() {
+                    @Override
+                    protected void updateItem(EmailMessage emailMessage, boolean empty) {
+                        super.updateItem(emailMessage, empty);
+                        if (emailMessage != null) {
+                            if (emailMessage.isRead()) {
+                                setStyle("");
+                            } else {
+                                setStyle("-fx-font-weight: bold");
+                            }
                         }
-                });
-        }
+                    }
 
-        private void setUpBoldRows() {
-                emailsTableView.setRowFactory(new Callback<TableView<EmailMessage>, TableRow<EmailMessage>>() {
-                        @Override
-                        public TableRow<EmailMessage> call(TableView<EmailMessage> param) {
-                                return new TableRow<EmailMessage>() {
-                                        @Override
-                                        protected void updateItem(EmailMessage emailMessage, boolean empty) {
-                                                super.updateItem(emailMessage, empty);
-                                                if (emailMessage != null) {
-                                                        if (emailMessage.isRead()) {
-                                                                setStyle("");
-                                                        } else {
-                                                                setStyle("-fx-font-weight: bold");
-                                                        }
-                                                }
-                                        }
+                };
+            }
+        });
+    }
 
-                                };
-                        }
-                });
-        }
+    private void setUpMessageRenderService() {
+        messageRenderService = new MessageRenderService(emailWebView.getEngine());
+    }
 
-        private void setUpMessageRenderService() {
-                messageRenderService= new MessageRenderService(emailWebView.getEngine());
-        }
+    private void setUpMessageSelection() {
+        emailsTableView.setOnMouseClicked(e -> {
+            EmailMessage emailMessage = emailsTableView.getSelectionModel().getSelectedItem();
+            if (emailMessage != null) {
+                emailManager.setSelectedMessage(emailMessage);
+                messageRenderService.setEmailMessage(emailMessage);
+                messageRenderService.restart();
+                emailManager.setMessageReadState(true);
+            }
+        });
+    }
 
-        private void setUpMessageSelection() {
-                emailsTableView.setOnMouseClicked(e->{
-                        EmailMessage emailMessage= emailsTableView.getSelectionModel().getSelectedItem();
-                        if (emailMessage !=null){
-                                emailManager.setSelectedMessage(emailMessage);
-                                messageRenderService.setEmailMessage(emailMessage);
-                                messageRenderService.restart();
-                                emailManager.setMessageReadState(true);
-                        }
-                });
-        }
-
+    private void setUpTableViewContextMenu() {
+        emailsTableView.setContextMenu(new ContextMenu(markUnreadMenuItem, deleteMessageMenuItem));
+        markUnreadMenuItem.setOnAction(e -> emailManager.setMessageReadState(false));
+        deleteMessageMenuItem.setOnAction(e -> {
+            emailManager.deleteSelectedMessage();
+            emailWebView.getEngine().loadContent("");
+        });
+    }
 }

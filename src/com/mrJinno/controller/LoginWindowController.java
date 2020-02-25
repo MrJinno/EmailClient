@@ -15,7 +15,8 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginWindowController extends Controller implements Initializable{
+public class LoginWindowController extends Controller implements Initializable {
+
     public LoginWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         super(emailManager, viewFactory, fxmlName);
     }
@@ -23,7 +24,7 @@ public class LoginWindowController extends Controller implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         emailAddressField.setText("bio.sad7@gmail.com");
-       setUpKeyEventHandler();
+        setUpKeyEventHandler();
     }
 
     private void setUpKeyEventHandler() {
@@ -48,9 +49,9 @@ public class LoginWindowController extends Controller implements Initializable{
     private Label errorLabel;
 
     @FXML
-   private void loginButtonAction() {
+    private void loginButtonAction() {
         if (fieldsAreValid()) {
-          initializeLoginService();
+            initializeLoginService();
         }
     }
 
@@ -67,28 +68,30 @@ public class LoginWindowController extends Controller implements Initializable{
     }
 
     private void initializeLoginService() {
-        EmailAccount emailAccount= new EmailAccount(emailAddressField.getText(), passwordField.getText());
-        LoginService loginService= new LoginService(emailAccount, emailManager);
+        EmailAccount emailAccount = new EmailAccount(emailAddressField.getText(), passwordField.getText());
+        LoginService loginService = new LoginService(emailAccount, emailManager);
         loginService.start();
         loginService.setOnSucceeded(event -> {
             EmailLoginResult emailLoginResult = loginService.getValue();
-            switch (emailLoginResult){
+            switch (emailLoginResult) {
                 case SUCCESS:
                     emailManager.addEmailAccount(emailAccount);
                     switchStageToMainWindow();
                     break;
                 case FAILED_BY_UNEXPECTED_ERROR:
-                    errorLabel.setText("unexpected error!!!"); break;
+                    errorLabel.setText("unexpected error!!!");
+                    break;
                 case FAILED_BY_CREDENTIALS:
-                    errorLabel.setText("Invalid credentials!"); break;
+                    errorLabel.setText("Invalid credentials!");
+                    break;
             }
         });
     }
 
-    public void switchStageToMainWindow(){
+    private void switchStageToMainWindow() {
         System.out.println("Login Success!");
         viewFactory.showMainWindow();
-        Stage stage=(Stage) errorLabel.getScene().getWindow();
+        Stage stage = (Stage) errorLabel.getScene().getWindow();
         viewFactory.closeStage(stage);
     }
 }

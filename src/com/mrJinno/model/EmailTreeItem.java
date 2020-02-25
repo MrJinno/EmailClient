@@ -55,7 +55,8 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         updateUnreadMessagesCount();
     }
 
-    public void updateUnreadMessagesCount() {
+    @SuppressWarnings("unchecked")
+    private void updateUnreadMessagesCount() {
         if (unreadMessagesCount > 0) {
             this.setValue((String) (name + "[" + unreadMessagesCount + "]"));
         } else {
