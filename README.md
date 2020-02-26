@@ -24,6 +24,7 @@ The purpose of it is to show how I managed to do a complete Project.
 * Multithreading
 * Serializable
 * Css
+* MVC design pattern
 
 ## Features
 * Ability to receive, write Emails
@@ -35,7 +36,7 @@ The purpose of it is to show how I managed to do a complete Project.
 Project is: _finished_
 
 ## Inspiration
-Based on the Advanced Java programming with JavaFx: Write an email client.
+Based on the Advanced Java programming with JavaFx: Write an email client. Upgraded by me.
 
 ## Contact
 Created by MrJinno. Email: wojtczakbartek7@gmail.com
