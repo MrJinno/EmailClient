@@ -36,7 +36,7 @@ The purpose of it is to show how I managed to do a complete Project.
 Project is: _finished_
 
 ## Inspiration
-Based on the Advanced Java programming with JavaFx: Write an email client. Upgraded by me.
+Based on the Advanced Java programming with JavaFx: Write an email client. Refactored by me.
 
 ## Contact
 Created by MrJinno. Email: wojtczakbartek7@gmail.com
